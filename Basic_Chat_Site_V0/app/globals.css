@@ -505,6 +505,7 @@ body {
   .btn-coral:hover {
     background-color: hsl(0 62% 50%);
     border-color: hsl(0 62% 50%);
+    color: white !important;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(255, 90, 95, 0.3);
   }
@@ -517,9 +518,63 @@ body {
   }
   .btn-coral-outline:hover {
     background-color: hsl(0 62% 59%);
-    color: white;
+    color: white !important;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(255, 90, 95, 0.3);
+  }
+  
+  /* General button hover fixes */
+  .hover:hover {
+    color: inherit;
+  }
+  
+  .btn:hover,
+  button:hover {
+    color: inherit;
+  }
+  
+  /* Specific button variant hover fixes */
+  .bg-coral:hover {
+    background-color: hsl(0 62% 50%) !important;
+    color: white !important;
+  }
+  
+  .text-coral:hover {
+    color: hsl(0 62% 45%) !important;
+  }
+  
+  /* Specific Tailwind hover utility fixes */
+  .hover\:bg-coral\/90:hover {
+    background-color: hsl(0 62% 50%) !important;
+    color: white !important;
+  }
+  
+  .hover\:bg-gray-50:hover {
+    background-color: hsl(0 0% 98%) !important;
+    color: hsl(0 0% 13%) !important;
+  }
+  
+  .hover\:text-coral\/80:hover {
+    color: hsl(0 62% 45%) !important;
+  }
+  
+  /* Button Hover Text Visibility Fixes */
+  button:hover {
+    color: inherit !important;
+  }
+
+  .bg-coral:hover {
+    color: white !important;
+  }
+
+  .text-coral:hover {
+    color: hsl(0 62% 45%) !important;
+  }
+
+  /* Ensure button text is visible on hover */
+  .btn:hover,
+  [role="button"]:hover {
+    color: inherit !important;
   }
   
   /* Badge styles with Airbnb colors */
@@ -698,4 +753,23 @@ body {
   justify-content: flex-end;
   padding: 1.5rem;
   color: white;
+}
+
+/* Button Hover Text Visibility Fixes */
+button:hover {
+  color: inherit !important;
+}
+
+.bg-coral:hover {
+  color: white !important;
+}
+
+.text-coral:hover {
+  color: hsl(0 62% 45%) !important;
+}
+
+/* Ensure button text is visible on hover */
+.btn:hover,
+[role="button"]:hover {
+  color: inherit !important;
 }

@@ -22,7 +22,9 @@ import {
   Building,
   Home,
   Star,
-  Filter
+  Filter,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ChatFormRedesigned } from "@/components/chat-form-redesigned"
@@ -69,6 +71,7 @@ export function LocalSpoonMarketplace() {
   const [userRole, setUserRole] = useState<'citizen' | 'official' | null>(null)
   const [searchLocation, setSearchLocation] = useState('')
   const [searchNeed, setSearchNeed] = useState('')
+  const [carouselIndex, setCarouselIndex] = useState(0)
 
   const handleContextAnswer = (answer: string) => {
     const step = contextSteps[currentStep]
@@ -163,54 +166,166 @@ export function LocalSpoonMarketplace() {
                   </div>
                 </div>
 
-                {/* Featured NYC Neighborhoods - Airbnb Destinations Style */}
+                {/* Featured NYC Neighborhoods - Carousel Style */}
                 <div className="max-w-6xl mx-auto">
-                  <h2 className="text-2xl font-semibold heading-airbnb mb-8">Explore nutrition resources by neighborhood</h2>
-                  <div className="destinations-grid">
-                    {[
-                      {
-                        name: "Brooklyn",
-                        subtitle: "Cultural food markets & community gardens",
-                        image: "bg-gradient-to-br from-green-400 to-emerald-600",
-                        highlights: ["SNAP-accepting markets", "Caribbean & African cuisine", "Community kitchens"]
-                      },
-                      {
-                        name: "Queens",
-                        subtitle: "Diverse cuisine & nutrition programs",
-                        image: "bg-gradient-to-br from-orange-400 to-red-500",
-                        highlights: ["International food markets", "Cultural nutrition guidance", "Halal & kosher options"]
-                      },
-                      {
-                        name: "Manhattan",
-                        subtitle: "Food assistance & urban farming",
-                        image: "bg-gradient-to-br from-blue-400 to-purple-600",
-                        highlights: ["Food pantries", "Urban harvest programs", "Healthy corner stores"]
-                      },
-                      {
-                        name: "The Bronx",
-                        subtitle: "Community nutrition & wellness",
-                        image: "bg-gradient-to-br from-purple-400 to-pink-500",
-                        highlights: ["Latina nutrition programs", "Youth cooking classes", "Senior meal programs"]
-                      }
-                    ].map((neighborhood, index) => (
-                      <div key={index} className="destination-card" onClick={() => {
-                        setSearchLocation(neighborhood.name)
-                        setUserRole('citizen')
-                        setContextComplete(true)
-                        setShowChat(true)
-                      }}>
-                        <div className={cn("aspect-[4/3] relative", neighborhood.image)}>
-                          <div className="destination-overlay">
-                            <h3 className="text-2xl font-bold mb-2">{neighborhood.name}</h3>
-                            <p className="text-lg opacity-90 mb-4">{neighborhood.subtitle}</p>
-                            <div className="space-y-1">
-                              {neighborhood.highlights.map((highlight, i) => (
-                                <div key={i} className="text-sm opacity-80">• {highlight}</div>
-                              ))}
+                  <div className="flex items-center justify-between mb-8">
+                    <h2 className="text-2xl font-semibold heading-airbnb">Explore nutrition resources by neighborhood</h2>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="rounded-full w-10 h-10 p-0 border-2 hover:bg-coral hover:text-white hover:border-coral"
+                        onClick={() => setCarouselIndex(Math.max(0, carouselIndex - 1))}
+                        disabled={carouselIndex === 0}
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="rounded-full w-10 h-10 p-0 border-2 hover:bg-coral hover:text-white hover:border-coral"
+                        onClick={() => setCarouselIndex(Math.min(1, carouselIndex + 1))}
+                        disabled={carouselIndex === 1}
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="relative overflow-hidden">
+                    <div 
+                      className="flex transition-transform duration-500 ease-in-out gap-6"
+                      style={{ transform: `translateX(-${carouselIndex * 100}%)` }}
+                    >
+                      {/* Slide 1 - Brooklyn & Queens */}
+                      <div className="flex-none w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[
+                          {
+                            name: "Brooklyn",
+                            subtitle: "Cultural food markets & community gardens",
+                            image: "/Placeholder_Images/Brooklyn.jpg",
+                            highlights: ["SNAP-accepting markets", "Caribbean & African cuisine", "Community kitchens"]
+                          },
+                          {
+                            name: "Queens",
+                            subtitle: "Diverse cuisine & nutrition programs",
+                            image: "/Placeholder_Images/Queens_Grocery.webp",
+                            highlights: ["International food markets", "Cultural nutrition guidance", "Halal & kosher options"]
+                          },
+                          {
+                            name: "Manhattan",
+                            subtitle: "Food assistance & urban farming",
+                            image: "/Placeholder_Images/Manhattan_Grocery_Store.JPG",
+                            highlights: ["Food pantries", "Urban harvest programs", "Healthy corner stores"]
+                          }
+                        ].map((neighborhood, index) => (
+                          <div 
+                            key={index} 
+                            className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group overflow-hidden"
+                            onClick={() => {
+                              setSearchLocation(neighborhood.name)
+                              setUserRole('citizen')
+                              setContextComplete(true)
+                              setShowChat(true)
+                            }}
+                          >
+                            <div className="aspect-[4/3] relative overflow-hidden">
+                              <img 
+                                src={neighborhood.image}
+                                alt={neighborhood.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
+                              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300"></div>
+                              <div className="absolute top-4 left-4">
+                                <h3 className="text-2xl font-bold text-white drop-shadow-lg">{neighborhood.name}</h3>
+                              </div>
+                            </div>
+                            <div className="p-6">
+                              <p className="text-gray-600 text-sm mb-3 leading-relaxed">{neighborhood.subtitle}</p>
+                              <div className="space-y-1">
+                                {neighborhood.highlights.slice(0, 2).map((highlight, i) => (
+                                  <div key={i} className="text-xs text-gray-500 flex items-center">
+                                    <div className="w-1 h-1 bg-coral rounded-full mr-2"></div>
+                                    {highlight}
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        ))}
                       </div>
+                      
+                      {/* Slide 2 - The Bronx & Staten Island */}
+                      <div className="flex-none w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[
+                          {
+                            name: "The Bronx",
+                            subtitle: "Community nutrition & wellness",
+                            image: "/Placeholder_Images/Bronx_Grocery_Store.JPG",
+                            highlights: ["Latina nutrition programs", "Youth cooking classes", "Senior meal programs"]
+                          },
+                          {
+                            name: "Staten Island",
+                            subtitle: "Farm-to-table & suburban resources",
+                            image: "/Placeholder_Images/Staten_Island_Farmers_Market.jpg",
+                            highlights: ["Local farmers markets", "Community gardens", "Family nutrition programs"]
+                          },
+                          {
+                            name: "Lower Manhattan",
+                            subtitle: "Financial district food access",
+                            image: "/Placeholder_Images/Lower_Manhattan_Market.jpg",
+                            highlights: ["Office worker meal prep", "Affordable lunch options", "Health-focused eateries"]
+                          }
+                        ].map((neighborhood, index) => (
+                          <div 
+                            key={index} 
+                            className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group overflow-hidden"
+                            onClick={() => {
+                              setSearchLocation(neighborhood.name)
+                              setUserRole('citizen')
+                              setContextComplete(true)
+                              setShowChat(true)
+                            }}
+                          >
+                            <div className="aspect-[4/3] relative overflow-hidden">
+                              <img 
+                                src={neighborhood.image}
+                                alt={neighborhood.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
+                              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300"></div>
+                              <div className="absolute top-4 left-4">
+                                <h3 className="text-2xl font-bold text-white drop-shadow-lg">{neighborhood.name}</h3>
+                              </div>
+                            </div>
+                            <div className="p-6">
+                              <p className="text-gray-600 text-sm mb-3 leading-relaxed">{neighborhood.subtitle}</p>
+                              <div className="space-y-1">
+                                {neighborhood.highlights.slice(0, 2).map((highlight, i) => (
+                                  <div key={i} className="text-xs text-gray-500 flex items-center">
+                                    <div className="w-1 h-1 bg-coral rounded-full mr-2"></div>
+                                    {highlight}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Carousel indicators */}
+                  <div className="flex justify-center mt-6 gap-2">
+                    {[0, 1].map((index) => (
+                      <button
+                        key={index}
+                        className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                          carouselIndex === index ? 'bg-coral' : 'bg-gray-300'
+                        }`}
+                        onClick={() => setCarouselIndex(index)}
+                        aria-label={`Go to slide ${index + 1}`}
+                      />
                     ))}
                   </div>
                 </div>
@@ -342,7 +457,7 @@ export function LocalSpoonMarketplace() {
                   location: "Brooklyn",
                   rating: 4.9,
                   reviews: 127,
-                  image: "bg-gradient-to-br from-green-400 to-green-600",
+                  image: "/Placeholder_Images/SNAP_Accepting_Markets.jpg",
                   description: "Fresh produce markets accepting SNAP/EBT benefits"
                 },
                 {
@@ -350,7 +465,7 @@ export function LocalSpoonMarketplace() {
                   location: "Queens",
                   rating: 4.8,
                   reviews: 89,
-                  image: "bg-gradient-to-br from-orange-400 to-red-500",
+                  image: "/Placeholder_Images/Cultural_Meal_Planning.jpg",
                   description: "Traditional recipes adapted for modern nutrition"
                 },
                 {
@@ -358,31 +473,44 @@ export function LocalSpoonMarketplace() {
                   location: "Manhattan",
                   rating: 4.7,
                   reviews: 203,
-                  image: "bg-gradient-to-br from-blue-400 to-purple-600",
+                  image: "/Placeholder_Images/Community_Food_Pantry.jpg",
                   description: "Free food assistance programs near you"
                 }
               ].map((resource, index) => (
-                <Card key={index} className="overflow-hidden group hover:shadow-xl transition-all duration-300 cursor-pointer">
-                  <div className={cn("aspect-[4/3] relative", resource.image)}>
-                    <div className="absolute inset-0 bg-black/20"></div>
+                <div 
+                  key={index} 
+                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group overflow-hidden"
+                >
+                  <div className="aspect-[4/3] relative overflow-hidden">
+                    <img 
+                      src={resource.image}
+                      alt={resource.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                     <div className="absolute top-4 right-4">
                       <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1">
-                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        <span className="text-sm font-semibold">{resource.rating}</span>
+                        <Star className="h-3 w-3 text-yellow-500 fill-current" />
+                        <span className="text-sm font-medium">{resource.rating}</span>
+                        <span className="text-xs text-gray-500">({resource.reviews})</span>
                       </div>
                     </div>
                   </div>
-                  <CardContent className="p-6">
+                  <div className="p-6">
                     <div className="flex items-start justify-between mb-2">
-                      <h4 className="font-semibold text-gray-900 text-lg">{resource.title}</h4>
-                      <span className="text-sm text-gray-500">{resource.location}</span>
+                      <h3 className="text-lg font-semibold text-gray-900 leading-tight">{resource.title}</h3>
                     </div>
-                    <p className="text-gray-600 mb-3">{resource.description}</p>
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                      <span>{resource.reviews} reviews</span>
+                    <p className="text-gray-600 text-sm mb-3 leading-relaxed">{resource.description}</p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1 text-gray-500">
+                        <MapPin className="h-4 w-4" />
+                        <span className="text-sm">{resource.location}</span>
+                      </div>
+                      <Button variant="ghost" size="sm" className="text-coral hover:text-white/80">
+                        Learn More
+                      </Button>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -413,14 +541,13 @@ export function LocalSpoonMarketplace() {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4">Community Impact</h3>
               <p className="text-gray-600 text-lg leading-relaxed">
-                Leaders can track program effectiveness and adapt USDA guidelines for NYC demographics
+                Leaders can track program effectiveness, plan interventions, and adapt services to community needs
               </p>
             </div>
           </div>
 
           {/* Trust & Safety */}
           <div className="bg-gray-50 rounded-3xl p-12 text-center">
-            <h3 className="text-3xl font-bold text-gray-900 mb-6">Trusted by NYC Communities</h3>
             <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 mb-8">
               <div className="flex items-center gap-3 badge-modern bg-coral/10 text-coral px-4 py-2">
                 <Heart className="h-5 w-5" />
@@ -442,9 +569,7 @@ export function LocalSpoonMarketplace() {
             <p className="text-gray-600 leading-relaxed mb-4">
               Supporting UN SDGs: Zero Hunger (SDG 2), Good Health & Well-being (SDG 3), and Reduced Inequalities (SDG 10)
             </p>
-            <p className="text-sm text-gray-500">
-              Verified by NYC Department of Health and Mental Hygiene
-            </p>
+
           </div>
         </section>
       </div>
