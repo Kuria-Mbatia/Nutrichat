@@ -1,0 +1,701 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mapbox GL CSS */
+@import 'mapbox-gl/dist/mapbox-gl.css';
+
+/* Custom map styling for responsive design */
+.mapboxgl-popup {
+  max-width: 300px !important;
+}
+
+.mapboxgl-popup-content {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.resource-popup .mapboxgl-popup-content {
+  padding: 0 !important;
+}
+
+.mapboxgl-popup-close-button {
+  font-size: 16px !important;
+  padding: 4px !important;
+  color: #64748b !important;
+}
+
+.mapboxgl-popup-close-button:hover {
+  background-color: #f1f5f9 !important;
+  color: #334155 !important;
+}
+
+/* Responsive map container */
+@media (max-width: 768px) {
+  .mapboxgl-ctrl-group {
+    margin-right: 8px !important;
+    margin-top: 8px !important;
+  }
+  
+  .mapboxgl-ctrl-group button {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+/* Custom marker styles */
+.user-location-marker {
+  z-index: 10 !important;
+}
+
+.resource-marker {
+  z-index: 5 !important;
+  transition: transform 0.2s ease !important;
+}
+
+.resource-marker:hover {
+  transform: scale(1.1) !important;
+  z-index: 15 !important;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    /* Airbnb-Inspired Color Schema */
+    --background: 0 0% 100%;              /* Pure White */
+    --foreground: 0 0% 13%;               /* Charcoal */
+    --card: 0 0% 100%;                    /* White */
+    --card-foreground: 0 0% 13%;          /* Charcoal */
+    --popover: 0 0% 100%;                 /* White */
+    --popover-foreground: 0 0% 13%;       /* Charcoal */
+    --primary: 0 62% 59%;                 /* Airbnb Coral */
+    --primary-foreground: 0 0% 100%;      /* White */
+    --secondary: 0 0% 96%;                /* Light Gray */
+    --secondary-foreground: 0 0% 29%;     /* Dark Gray */
+    --muted: 0 0% 96%;                    /* Light Gray */
+    --muted-foreground: 0 0% 45%;         /* Medium Gray */
+    --accent: 0 62% 59%;                  /* Airbnb Coral */
+    --accent-foreground: 0 0% 100%;       /* White */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;                   /* Light Border */
+    --input: 0 0% 96%;                    /* Light Input */
+    --ring: 0 62% 59%;                    /* Airbnb Coral */
+    --chart-1: 0 62% 59%;                 /* Airbnb Coral */
+    --chart-2: 220 14% 96%;               /* Light Blue Gray */
+    --chart-3: 220 13% 91%;               /* Medium Blue Gray */
+    --chart-4: 220 9% 46%;                /* Dark Blue Gray */
+    --chart-5: 0 0% 13%;                  /* Charcoal */
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 100%;      /* White */
+    --sidebar-foreground: 0 0% 13%;       /* Charcoal */
+    --sidebar-primary: 0 62% 59%;         /* Airbnb Coral */
+    --sidebar-primary-foreground: 0 0% 100%; /* White */
+    --sidebar-accent: 0 0% 96%;           /* Light Gray */
+    --sidebar-accent-foreground: 0 0% 13%; /* Charcoal */
+    --sidebar-border: 0 0% 90%;           /* Light Border */
+    --sidebar-ring: 0 62% 59%;            /* Airbnb Coral */
+  }
+  .dark {
+    --background: 0 0% 13%;               /* Charcoal */
+    --foreground: 0 0% 100%;              /* White */
+    --card: 0 0% 20%;                     /* Dark Card */
+    --card-foreground: 0 0% 100%;         /* White */
+    --popover: 0 0% 13%;                  /* Charcoal */
+    --popover-foreground: 0 0% 100%;      /* White */
+    --primary: 0 62% 59%;                 /* Airbnb Coral */
+    --primary-foreground: 0 0% 100%;      /* White */
+    --secondary: 0 0% 20%;                /* Dark Secondary */
+    --secondary-foreground: 0 0% 100%;    /* White */
+    --muted: 0 0% 20%;                    /* Dark Muted */
+    --muted-foreground: 0 0% 65%;         /* Light Gray */
+    --accent: 0 62% 59%;                  /* Airbnb Coral */
+    --accent-foreground: 0 0% 100%;       /* White */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;                   /* Dark Border */
+    --input: 0 0% 20%;                    /* Dark Input */
+    --ring: 0 62% 59%;                    /* Airbnb Coral */
+    --chart-1: 38 95% 49%;                /* Gamboge */
+    --chart-2: 19 83% 52%;                /* Halloween Orange */
+    --chart-3: 191 14% 85%;               /* Light Silver */
+    --chart-4: 196 90% 24%;               /* Blue Sapphire */
+    --chart-5: 0 0% 100%;                 /* White */
+    --sidebar-background: 212 91% 18%;    /* Prussian Blue */
+    --sidebar-foreground: 0 0% 100%;      /* White */
+    --sidebar-primary: 38 95% 49%;        /* Gamboge */
+    --sidebar-primary-foreground: 212 91% 18%; /* Prussian Blue */
+    --sidebar-accent: 196 90% 24%;        /* Blue Sapphire */
+    --sidebar-accent-foreground: 0 0% 100%; /* White */
+    --sidebar-border: 196 90% 24%;        /* Blue Sapphire */
+    --sidebar-ring: 38 95% 49%;           /* Gamboge */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Mapbox custom styles */
+.mapboxgl-map {
+  font-family: inherit !important;
+}
+
+.mapboxgl-ctrl-bottom-left,
+.mapboxgl-ctrl-bottom-right {
+  display: none !important;
+}
+
+.mapboxgl-popup-content {
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Enhanced navigation and layout styles */
+.main-content {
+  padding-right: 4rem; /* Ensure content doesn't overlap with nav button */
+}
+
+/* Enhanced spacing and transitions */
+.space-bottom {
+  padding-bottom: 2rem;
+}
+
+.transition-all {
+  transition: all 0.2s ease;
+}
+
+/* Navigation button improvements */
+.nav-button {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Quick prompt buttons styling */
+.quick-prompt-button {
+  transition: all 0.2s ease;
+}
+
+.quick-prompt-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Fix for mobile navigation overlay */
+@media (max-width: 768px) {
+  .main-content {
+    padding-right: 1rem;
+  }
+}
+
+/* Custom scrollbars and resource list styling */
+.resource-list-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.resource-list-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.resource-list-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.resource-list-container::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+.resource-list-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.8);
+}
+
+/* Ensure proper line clamping */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Chat form improvements */
+.chat-form-container {
+  background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.95) 100%);
+  backdrop-filter: blur(8px);
+}
+
+/* Map container improvements */
+.map-container {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced mobile responsiveness and modern design improvements */
+
+/* Better mobile navigation */
+@media (max-width: 768px) {
+  .mobile-responsive-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  .mobile-hide {
+    display: none !important;
+  }
+  
+  .mobile-full-width {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .mobile-padding {
+    padding: 0.75rem !important;
+  }
+  
+  .mobile-text-sm {
+    font-size: 0.875rem !important;
+  }
+}
+
+/* Improved touch targets for mobile */
+@media (max-width: 768px) {
+  .touch-target {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+  
+  .button-mobile {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.875rem !important;
+  }
+}
+
+/* Modern glassmorphism effects */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced gradient backgrounds */
+.gradient-bg-primary {
+  background: linear-gradient(135deg, hsl(0 62% 97%) 0%, hsl(0 0% 98%) 50%, hsl(0 62% 97%) 100%);
+}
+
+.gradient-bg-soft {
+  background: linear-gradient(135deg, hsl(0 62% 97%) 0%, hsl(0 0% 98%) 50%, hsl(0 62% 95%) 100%);
+}
+
+/* Modern card hover effects */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Better focus states for accessibility */
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px hsl(0 62% 59%), 0 0 0 4px hsla(0, 62%, 59%, 0.2);
+}
+
+/* Smooth animations */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Better typography scales */
+.text-responsive {
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+}
+
+.heading-responsive {
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
+}
+
+.title-responsive {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+}
+
+/* Enhanced spacing system */
+.spacing-section {
+  padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 3vw, 2rem);
+}
+
+/* Better mobile chat layout */
+@media (max-width: 768px) {
+  .chat-mobile-layout {
+    height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chat-mobile-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+  
+  .chat-mobile-input {
+    flex-shrink: 0;
+    padding: 1rem;
+    background: white;
+    border-top: 1px solid #e2e8f0;
+  }
+}
+
+/* Modern badge styles */
+.badge-modern {
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+/* Enhanced quick prompt buttons */
+.quick-prompt-enhanced {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+}
+
+.quick-prompt-enhanced:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Better mobile overlay */
+@media (max-width: 1024px) {
+  .mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 40;
+  }
+}
+
+/* Custom utility classes for Airbnb-inspired color schema */
+@layer utilities {
+  /* Background colors */
+  .bg-coral { background-color: hsl(0 62% 59%); }
+  .bg-coral-light { background-color: hsl(0 62% 95%); }
+  .bg-warm-gray { background-color: hsl(0 0% 96%); }
+  .bg-charcoal { background-color: hsl(0 0% 13%); }
+  .bg-medium-gray { background-color: hsl(0 0% 45%); }
+  
+  /* Text colors */
+  .text-coral { color: hsl(0 62% 59%); }
+  .text-coral-dark { color: hsl(0 62% 45%); }
+  .text-warm-gray { color: hsl(0 0% 96%); }
+  .text-charcoal { color: hsl(0 0% 13%); }
+  .text-medium-gray { color: hsl(0 0% 45%); }
+  
+  /* Border colors */
+  .border-coral { border-color: hsl(0 62% 59%); }
+  .border-coral-light { border-color: hsl(0 62% 85%); }
+  .border-warm-gray { border-color: hsl(0 0% 90%); }
+  .border-charcoal { border-color: hsl(0 0% 13%); }
+  
+  /* Gradients with Airbnb colors */
+  .gradient-coral { 
+    background: linear-gradient(135deg, hsl(0 62% 59%) 0%, hsl(0 62% 45%) 100%); 
+  }
+  .gradient-warm { 
+    background: linear-gradient(135deg, hsl(0 62% 95%) 0%, hsl(0 0% 96%) 100%); 
+  }
+  .gradient-neutral { 
+    background: linear-gradient(135deg, hsl(0 0% 96%) 0%, hsl(0 0% 100%) 100%); 
+  }
+  .gradient-primary { 
+    background: linear-gradient(135deg, hsl(0 62% 59%) 0%, hsl(0 62% 50%) 100%); 
+  }
+  .gradient-secondary { 
+    background: linear-gradient(135deg, hsl(0 0% 13%) 0%, hsl(0 0% 20%) 100%); 
+  }
+  .gradient-accent { 
+    background: linear-gradient(135deg, hsl(0 62% 59%) 0%, hsl(15 80% 50%) 100%); 
+  }
+
+  /* Airbnb-style shadows */
+  .shadow-airbnb {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+  .shadow-airbnb-hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  .shadow-3xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Coral-based hover states for interactive elements */
+  .hover-coral:hover { 
+    background-color: hsl(0 62% 59%); 
+    color: white; 
+  }
+  .hover-coral-light:hover { 
+    background-color: hsl(0 62% 95%); 
+    color: hsl(0 62% 45%); 
+  }
+  
+  /* Button variants with Airbnb styling */
+  .btn-coral {
+    background-color: hsl(0 62% 59%);
+    color: white;
+    border: 2px solid hsl(0 62% 59%);
+    transition: all 0.2s ease;
+  }
+  .btn-coral:hover {
+    background-color: hsl(0 62% 50%);
+    border-color: hsl(0 62% 50%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 90, 95, 0.3);
+  }
+  
+  .btn-coral-outline {
+    background-color: transparent;
+    color: hsl(0 62% 59%);
+    border: 2px solid hsl(0 62% 59%);
+    transition: all 0.2s ease;
+  }
+  .btn-coral-outline:hover {
+    background-color: hsl(0 62% 59%);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 90, 95, 0.3);
+  }
+  
+  /* Badge styles with Airbnb colors */
+  .badge-coral {
+    background-color: hsl(0 62% 95%);
+    color: hsl(0 62% 45%);
+    border: 1px solid hsl(0 62% 85%);
+  }
+  .badge-charcoal {
+    background-color: hsl(0 0% 96%);
+    color: hsl(0 0% 13%);
+    border: 1px solid hsl(0 0% 90%);
+  }
+  
+  /* Input field styling with Airbnb aesthetic */
+  .input-airbnb {
+    border: 1px solid hsl(0 0% 90%);
+    border-radius: 8px;
+    padding: 12px 16px;
+    transition: all 0.2s ease;
+    background-color: white;
+  }
+  .input-airbnb:focus {
+    outline: none;
+    border-color: hsl(0 62% 59%);
+    box-shadow: 0 0 0 3px rgba(255, 90, 95, 0.1);
+  }
+  
+  /* Card styling with Airbnb design */
+  .card-airbnb {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid hsl(0 0% 94%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-airbnb:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    border-color: hsl(0 0% 88%);
+  }
+  
+  /* Typography with Airbnb font weights and spacing */
+  .heading-airbnb {
+    font-weight: 600;
+    color: hsl(0 0% 13%);
+    line-height: 1.3;
+  }
+  .text-airbnb {
+    color: hsl(0 0% 29%);
+    line-height: 1.5;
+  }
+  .text-airbnb-light {
+    color: hsl(0 0% 45%);
+    line-height: 1.5;
+  }
+}
+
+/* Desktop chat centering styles */
+@media (min-width: 1024px) {
+  .chat-desktop-centered {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .chat-container-desktop {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 80px);
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .chat-messages-desktop {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid hsl(0 0% 94%);
+  }
+  
+  .chat-input-desktop {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid hsl(0 0% 90%);
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Enhanced mobile responsiveness for LocalSpoon */
+@media (max-width: 768px) {
+  .localspoon-mobile-hero {
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .localspoon-mobile-search {
+    margin: 1rem;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  
+  .localspoon-mobile-cards {
+    padding: 1rem;
+    gap: 1rem;
+  }
+}
+
+/* Airbnb-inspired homepage intro styles */
+.hero-section-airbnb {
+  background: linear-gradient(135deg, 
+    hsl(0 62% 97%) 0%, 
+    hsl(0 0% 98%) 50%, 
+    hsl(0 62% 97%) 100%);
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content {
+  z-index: 2;
+  position: relative;
+}
+
+.search-bar-airbnb {
+  background: white;
+  border-radius: 40px;
+  padding: 8px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+  border: 1px solid hsl(0 0% 94%);
+  transition: all 0.3s ease;
+}
+
+.search-bar-airbnb:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.destinations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.destination-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.destination-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.destination-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.3) 60%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  color: white;
+}
