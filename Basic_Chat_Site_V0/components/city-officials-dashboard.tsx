@@ -184,11 +184,9 @@ export function CityOfficialsDashboard() {
 
       <div className="flex-1 max-w-7xl mx-auto p-3 sm:p-4 w-full">
         <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-4 sm:space-y-6">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 text-xs sm:text-sm">
+          <TabsList className="grid w-full grid-cols-2 text-xs sm:text-sm">
             <TabsTrigger value="overview" className="text-xs sm:text-sm">Overview</TabsTrigger>
             <TabsTrigger value="resources" className="text-xs sm:text-sm">Resources</TabsTrigger>
-            <TabsTrigger value="interventions" className="text-xs sm:text-sm">Interventions</TabsTrigger>
-            <TabsTrigger value="guidelines" className="text-xs sm:text-sm">Guidelines</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
@@ -362,118 +360,6 @@ export function CityOfficialsDashboard() {
                 </Card>
               ))}
             </div>
-          </TabsContent>
-
-          <TabsContent value="interventions" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-xl flex items-center gap-2">
-                  <Target className="h-5 w-5" />
-                  Recommended Community Interventions
-                </CardTitle>
-                <CardDescription>
-                  Data-driven recommendations to improve nutrition access and equity
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <div className="grid gap-4">
-              {interventionRecommendations.map((intervention, index) => (
-                <Card key={index}>
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg">{intervention.title}</CardTitle>
-                      <Badge 
-                        variant={
-                          intervention.priority === 'high' ? 'destructive' :
-                          intervention.priority === 'medium' ? 'default' : 'secondary'
-                        }
-                      >
-                        {intervention.priority.toUpperCase()} PRIORITY
-                      </Badge>
-                    </div>
-                    <CardDescription>{intervention.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <h5 className="font-medium text-sm mb-1">Expected Impact</h5>
-                        <p className="text-sm text-muted-foreground">{intervention.expectedImpact}</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-sm mb-1">Timeline</h5>
-                        <p className="text-sm text-muted-foreground">{intervention.timeline}</p>
-                      </div>
-                      <div>
-                        <h5 className="font-medium text-sm mb-1">Estimated Budget</h5>
-                        <p className="text-sm text-muted-foreground">{intervention.budget}</p>
-                      </div>
-                    </div>
-                    <div className="mt-4 pt-4 border-t">
-                      <Button size="sm" className="mr-2">
-                        Approve for Planning
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        Request More Info
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="guidelines" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-xl flex items-center gap-2">
-                  <FileText className="h-5 w-5" />
-                  USDA Guidelines - NYC Localization
-                </CardTitle>
-                <CardDescription>
-                  Adapting national dietary guidelines for NYC's diverse communities
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-medium mb-3">MyPlate Adaptations</h4>
-                    <div className="space-y-3">
-                      <div className="p-3 bg-blue-50 rounded-lg">
-                        <h5 className="font-medium text-sm">Cultural Protein Sources</h5>
-                        <p className="text-xs text-muted-foreground">Beans, lentils, tofu adapted for Latino, South Asian, and Caribbean cuisines</p>
-                      </div>
-                      <div className="p-3 bg-green-50 rounded-lg">
-                        <h5 className="font-medium text-sm">Urban Grown Vegetables</h5>
-                        <p className="text-xs text-muted-foreground">Emphasis on leafy greens and herbs available at NYC farmers markets</p>
-                      </div>
-                      <div className="p-3 bg-orange-50 rounded-lg">
-                        <h5 className="font-medium text-sm">Whole Grains</h5>
-                        <p className="text-xs text-muted-foreground">Brown rice, quinoa, whole wheat chapati, plantains as culturally appropriate options</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-medium mb-3">Community-Specific Recommendations</h4>
-                    <div className="space-y-3">
-                      <div className="p-3 bg-purple-50 rounded-lg">
-                        <h5 className="font-medium text-sm">Budget Considerations</h5>
-                        <p className="text-xs text-muted-foreground">SNAP-optimized meal planning with cost per serving calculations</p>
-                      </div>
-                      <div className="p-3 bg-yellow-50 rounded-lg">
-                        <h5 className="font-medium text-sm">Seasonal Adaptations</h5>
-                        <p className="text-xs text-muted-foreground">NYC seasonal produce calendar integrated with cultural food preferences</p>
-                      </div>
-                      <div className="p-3 bg-red-50 rounded-lg">
-                        <h5 className="font-medium text-sm">Food Security Focus</h5>
-                        <p className="text-xs text-muted-foreground">Emphasis on shelf-stable, culturally appropriate foods for emergency planning</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </TabsContent>
         </Tabs>
       </div>

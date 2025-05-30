@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { 
@@ -50,6 +50,22 @@ export function NavigationAirbnb({ currentRole, onRoleChange, userContext, curre
   const [searchQuery, setSearchQuery] = useState("")
   const [showSearch, setShowSearch] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
+  const searchRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSearch(false)
+        setShowFilters(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   const roleOptions = [
     {
@@ -104,12 +120,15 @@ export function NavigationAirbnb({ currentRole, onRoleChange, userContext, curre
             {/* Center Search Pill - Airbnb Style - Only show for citizens or no role */}
             {currentRole !== 'official' && (
               <div className="hidden md:flex flex-1 justify-center max-w-lg mx-8">
-                <div className="relative w-full">
+                <div className="relative w-full" ref={searchRef}>
                   <div className="bg-white rounded-full shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-200">
                     <div className="flex items-center">
                       <button 
                         className="flex-1 px-6 py-3 text-left hover:bg-gray-50 rounded-l-full transition-all"
-                        onClick={() => setShowFilters(!showFilters)}
+                        onClick={() => {
+                          setShowFilters(!showFilters)
+                          setShowSearch(false)
+                        }}
                       >
                         <div className="text-xs font-semibold text-gray-500 mb-1">Where</div>
                         <div className="text-sm text-gray-900">NYC Neighborhood</div>
@@ -117,7 +136,10 @@ export function NavigationAirbnb({ currentRole, onRoleChange, userContext, curre
                       <div className="w-px h-8 bg-gray-200"></div>
                       <button 
                         className="flex-1 px-6 py-3 text-left hover:bg-gray-50 transition-all"
-                        onClick={() => setShowSearch(true)}
+                        onClick={() => {
+                          setShowSearch(!showSearch)
+                          setShowFilters(false)
+                        }}
                       >
                         <div className="text-xs font-semibold text-gray-500 mb-1">What</div>
                         <div className="text-sm text-gray-900">Resources & Nutrition</div>
@@ -219,7 +241,7 @@ export function NavigationAirbnb({ currentRole, onRoleChange, userContext, curre
               {/* Role Switcher */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="gap-2 hover:bg-gray-50">
+                  <Button variant="outline" className="gap-2 hover:bg-gray-50 hover:text-gray-900">
                     {currentRole ? (
                       <>
                         {React.createElement(currentRoleData!.icon, { className: "h-4 w-4" })}
@@ -243,7 +265,7 @@ export function NavigationAirbnb({ currentRole, onRoleChange, userContext, curre
                         key={role.value}
                         onClick={() => onRoleChange(role.value)}
                         className={cn(
-                          "flex items-start gap-3 p-3 rounded-lg cursor-pointer mb-2",
+                          "flex items-start gap-3 p-3 rounded-lg cursor-pointer mb-2 hover:text-white focus:text-white",
                           currentRole === role.value && "bg-coral/10"
                         )}
                       >
@@ -260,7 +282,7 @@ export function NavigationAirbnb({ currentRole, onRoleChange, userContext, curre
                       </DropdownMenuItem>
                     ))}
                     <DropdownMenuSeparator className="my-3" />
-                    <DropdownMenuItem onClick={() => onRoleChange(null)} className="text-red-600">
+                    <DropdownMenuItem onClick={() => onRoleChange(null)} className="text-red-600 hover:text-white focus:text-white">
                       <LogIn className="h-4 w-4 mr-2" />
                       Return to Home
                     </DropdownMenuItem>

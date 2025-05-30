@@ -551,7 +551,7 @@ body {
   
   .hover\:bg-gray-50:hover {
     background-color: hsl(0 0% 98%) !important;
-    color: hsl(0 0% 13%) !important;
+    color: hsl(0 0% 15%) !important;
   }
   
   .hover\:text-coral\/80:hover {
@@ -755,21 +755,89 @@ body {
   color: white;
 }
 
-/* Button Hover Text Visibility Fixes */
-button:hover {
-  color: inherit !important;
-}
-
-.bg-coral:hover {
-  color: white !important;
-}
-
-.text-coral:hover {
-  color: hsl(0 62% 45%) !important;
-}
-
-/* Ensure button text is visible on hover */
+/* Enhanced button hover text visibility fixes */
+button:hover,
 .btn:hover,
 [role="button"]:hover {
   color: inherit !important;
+}
+
+/* Specific fixes for coral background buttons */
+.bg-coral:hover,
+.hover\:bg-coral:hover {
+  background-color: hsl(0 62% 50%) !important;
+  color: white !important;
+}
+
+/* Fix for navigation button hovers */
+.hover\:bg-gray-50:hover {
+  background-color: hsl(0 0% 98%) !important;
+  color: hsl(0 0% 15%) !important;
+}
+
+/* Fix for role switcher button */
+.hover\:text-gray-900:hover {
+  color: hsl(0 0% 15%) !important;
+}
+
+/* Fix for Learn More buttons on coral background */
+.hover\:text-white:hover {
+  color: white !important;
+}
+
+/* Ensure white text stays white on coral hover */
+.hover\:bg-coral:hover * {
+  color: white !important;
+}
+
+/* Navigation Dropdown Menu Hover Fixes */
+[data-radix-collection-item]:hover,
+[data-radix-collection-item]:focus {
+  color: white !important;
+}
+
+[data-radix-collection-item]:hover * {
+  color: inherit !important;
+}
+
+[data-radix-collection-item]:focus * {
+  color: inherit !important;
+}
+
+/* Dropdown menu items should show white text on hover */
+.dropdown-menu-item:hover,
+.dropdown-menu-item:focus {
+  color: white !important;
+}
+
+.dropdown-menu-item:hover .text-sm,
+.dropdown-menu-item:hover .text-xs,
+.dropdown-menu-item:focus .text-sm,
+.dropdown-menu-item:focus .text-xs {
+  color: white !important;
+}
+
+/* Specific fix for navigation dropdown menu items */
+[data-radix-dropdown-menu-content] [data-radix-collection-item]:hover {
+  color: white !important;
+}
+
+[data-radix-dropdown-menu-content] [data-radix-collection-item]:hover .text-sm {
+  color: white !important;
+}
+
+[data-radix-dropdown-menu-content] [data-radix-collection-item]:hover .text-xs {
+  color: white !important;
+}
+
+[data-radix-dropdown-menu-content] [data-radix-collection-item]:focus {
+  color: white !important;
+}
+
+[data-radix-dropdown-menu-content] [data-radix-collection-item]:focus .text-sm {
+  color: white !important;
+}
+
+[data-radix-dropdown-menu-content] [data-radix-collection-item]:focus .text-xs {
+  color: white !important;
 }

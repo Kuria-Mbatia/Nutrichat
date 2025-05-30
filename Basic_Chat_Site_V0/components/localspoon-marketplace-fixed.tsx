@@ -694,12 +694,10 @@ export function LocalSpoonMarketplace() {
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              {(userRole as string) === 'official' && (
-                <Badge variant="secondary" className="badge-modern bg-coral/10 text-coral text-xs flex items-center gap-1">
-                  <MessageSquare className="h-3 w-3" />
-                  Chat Mode
-                </Badge>
-              )}
+              <Badge variant="secondary" className="badge-modern bg-coral/10 text-coral text-xs flex items-center gap-1">
+                <MessageSquare className="h-3 w-3" />
+                Chat Mode
+              </Badge>
               {userContext.location && (
                 <Badge variant="secondary" className="badge-modern bg-charcoal/10 text-charcoal text-xs hidden sm:inline-flex items-center gap-1">
                   <MapPin className="h-3 w-3" />
