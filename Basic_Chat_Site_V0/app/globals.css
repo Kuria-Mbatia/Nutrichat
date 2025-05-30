@@ -432,6 +432,34 @@ body {
   }
 }
 
+/* Chat area centering and mobile improvements */
+.chat-mobile-layout {
+  width: 100%;
+}
+
+/* Smooth transitions for chat area width changes */
+.chat-container {
+  transition: max-width 0.3s ease-in-out;
+}
+
+/* Mobile map overlay improvements */
+.mobile-overlay {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Enhanced mobile navigation for map */
+@media (max-width: 1024px) {
+  .mobile-map-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
 /* Custom utility classes for Airbnb-inspired color schema */
 @layer utilities {
   /* Background colors */

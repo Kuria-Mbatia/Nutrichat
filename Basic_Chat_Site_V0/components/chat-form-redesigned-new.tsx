@@ -72,7 +72,7 @@ export function ChatFormRedesigned({ className, initialContext, ...props }: Chat
   const welcomeMessage = (
     <div className="max-w-md mx-auto text-center space-y-4 sm:space-y-6">
       <div className="space-y-3">
-        <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center mx-auto shadow-lg">
+        <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mx-auto shadow-lg">
           <Sparkles className="h-6 w-6 text-white" />
         </div>
         <h2 className="text-lg sm:text-xl font-bold text-charcoal">Your Personal Nutrition Assistant</h2>
@@ -127,7 +127,7 @@ export function ChatFormRedesigned({ className, initialContext, ...props }: Chat
           )}
         >
           {message.role === 'assistant' && (
-            <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1 shadow-lg">
+            <div className="w-8 h-8 gradient-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1 shadow-lg">
               <Sparkles className="h-4 w-4 text-white" />
             </div>
           )}
@@ -135,7 +135,7 @@ export function ChatFormRedesigned({ className, initialContext, ...props }: Chat
             "rounded-2xl px-4 py-3 max-w-[85%] sm:max-w-[75%] shadow-sm",
             message.role === 'assistant' 
               ? "bg-gray-50 text-charcoal border border-gray-200" 
-              : "bg-gradient-primary text-white ml-auto shadow-lg"
+              : "gradient-primary text-white ml-auto shadow-lg"
           )}
           >
             <div className="prose prose-sm max-w-none text-sm sm:text-base">

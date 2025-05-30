@@ -738,10 +738,21 @@ export function LocalSpoonMarketplace() {
           "flex-1 flex flex-col transition-all duration-300",
           showMap ? "lg:w-1/2" : "w-full"
         )}>
-          <ChatFormRedesigned 
-            className="h-full chat-mobile-layout"
-            initialContext={userContext}
-          />
+          {/* Center chat area when map is not shown */}
+          <div className={cn(
+            "h-full flex",
+            !showMap ? "justify-center" : ""
+          )}>
+            <div className={cn(
+              "flex flex-col h-full transition-all duration-300",
+              !showMap ? "w-full max-w-4xl" : "w-full"
+            )}>
+              <ChatFormRedesigned 
+                className="h-full chat-mobile-layout"
+                initialContext={userContext}
+              />
+            </div>
+          </div>
         </div>
 
         {/* Map Section - Slides in from right */}
@@ -760,10 +771,25 @@ export function LocalSpoonMarketplace() {
         <div className="lg:hidden fixed inset-0 bg-white z-50 flex flex-col mobile-overlay">
           <div className="glass-effect border-b shadow-sm">
             <div className="px-4 py-3 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setShowMap(false)} 
+                  className="flex items-center gap-2 touch-target text-coral hover:bg-coral/10"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  Back to Chat
+                </Button>
+              </div>
               <h3 className="font-semibold text-gray-900">Food Resources Map</h3>
-              <Button variant="ghost" size="sm" onClick={() => setShowMap(false)} className="flex items-center gap-1 touch-target">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setShowMap(false)} 
+                className="flex items-center gap-1 touch-target hover:bg-gray-100"
+              >
                 <X className="h-4 w-4" />
-                Close
               </Button>
             </div>
           </div>
